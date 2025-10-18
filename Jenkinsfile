@@ -14,7 +14,6 @@ pipeline {
     }
     
     tools {        
-        python "python"
         nodejs "node"
     }
 
