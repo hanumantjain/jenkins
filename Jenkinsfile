@@ -2,6 +2,7 @@ pipeline {
     agent any
     
     environment {
+        RENDER_API_KEY = credentials('render-api-key')
         // Replace with the backend deploy hook you copied
         RENDER_BACKEND_DEPLOY_HOOK = "https://api.render.com/deploy/srv-d3prkre3jp1c7386h4h0?key=w8BicdtM1f4"
         // Replace with the frontend deploy hook you copied
@@ -21,7 +22,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/hanumantjain/jenkins'
+                git branch: 'main', credentialsId: 'Git token', url: 'https://github.com/hanumantjain/jenkins'
             }
         }
         stage('Build') {
