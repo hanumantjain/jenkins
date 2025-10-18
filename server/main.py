@@ -8,6 +8,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:5001",
+        "https://jenkins-5kaq.onrender.com",
     ],
     allow_credentials=True,
     allow_methods=["*"],
