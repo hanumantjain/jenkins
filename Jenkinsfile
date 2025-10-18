@@ -1,3 +1,11 @@
+environment {
+        RENDER_API_KEY = credentials('render-api-key')
+        // Replace with the backend deploy hook you copied
+        RENDER_BACKEND_DEPLOY_HOOK = "https://api.render.com/deploy/srv-d3prkre3jp1c7386h4h0?key=w8BicdtM1f4?key=your-api-key"
+        // Replace with the frontend deploy hook you copied
+        RENDER_FRONTEND_DEPLOY_HOOK = "https://api.render.com/deploy/srv-d3prplc9c44c73caagcg?key=DsZacQV8r6Q?key=your-api-key"
+    }
+
 pipeline {
     agent any
     options {
@@ -59,6 +67,28 @@ pipeline {
                             '''
                         }
                     }
+                }
+            }
+        }
+        
+        stage('Deploy to Render') {
+            steps {
+                script {
+                    echo "Deploying Backend..."
+                    def backendResponse = httpRequest(
+                        url: "${RENDER_BACKEND_DEPLOY_HOOK}",
+                        httpMode: 'POST',
+                        validResponseCodes: '200:299'
+                    )
+                    echo "Render Backend Deployment Response: ${backendResponse}"
+        
+                    echo "Deploying Frontend..."
+                    def frontendResponse = httpRequest(
+                        url: "${RENDER_FRONTEND_DEPLOY_HOOK}",
+                        httpMode: 'POST',
+                        validResponseCodes: '200:299'
+                    )
+                    echo "Render Frontend Deployment Response: ${frontendResponse}"
                 }
             }
         }
